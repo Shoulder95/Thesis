@@ -5,11 +5,9 @@ import pickle
 import detectron.utils.densepose_methods as dp_utils
 import time
 
-im  = cv2.imread('/densepose/DensePoseData/infer_out_test/5.jpg')
-IUV = cv2.imread('/densepose/DensePoseData/infer_out_test/5_IUV.png')
-print(IUV)
-INDS = cv2.imread('/densepose/DensePoseData/infer_out/5_INDS.png',  0)
-print(INDS)
+im  = cv2.imread('/densepose/DensePoseData/infer_out_test/12.jpg')
+IUV = cv2.imread('/densepose/DensePoseData/infer_out_test/12_IUV.png')
+INDS = cv2.imread('/densepose/DensePoseData/infer_out_test/12_INDS.png',  0)
 
 # Now read the smpl model.
 with open('/densepose/DensePoseData/basicmodel_m_lbs_10_207_0_v1.0.0.pkl', 'rb') as f:
@@ -22,6 +20,7 @@ DP = dp_utils.DensePoseMethods()
 pick_idx = 1    # PICK PERSON INDEX!
 
 C = np.where(INDS == pick_idx)
+print(C)
 # C[0] is x-coords  np.array([23,  23,   24, ..])
 # C[1] is y-coords  np.array([127, 128, 130, ..])
 print('num pts on picked person:', C[0].shape)
