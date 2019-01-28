@@ -1,18 +1,18 @@
 import numpy
 import cv2
-import matplotlib.pyplot as plt
 import numpy as np
-from mpl_toolkits.mplot3d import axes3d, Axes3D
 import pickle
 import detectron.utils.densepose_methods as dp_utils
 import time
 
-im  = cv2.imread('../DensePoseData/demo_data/im.jpg')
-IUV = cv2.imread('../DensePoseData/demo_data/IUV.png')
-INDS = cv2.imread('../DensePoseData/demo_data/INDS.png',  0)
+im  = cv2.imread('/densepose/DensePoseData/infer_out_test/5.jpg')
+IUV = cv2.imread('/densepose/DensePoseData/infer_out_test/5_IUV.png')
+print(IUV)
+INDS = cv2.imread('/densepose/DensePoseData/infer_out/5_INDS.png',  0)
+print(INDS)
 
 # Now read the smpl model.
-with open('../DensePoseData/basicmodel_m_lbs_10_207_0_v1.0.0.pkl', 'rb') as f:
+with open('/densepose/DensePoseData/basicmodel_m_lbs_10_207_0_v1.0.0.pkl', 'rb') as f:
     data = pickle.load(f)
     Vertices = data['v_template']  ##  Loaded vertices of size (6890, 3)
     X,Y,Z = [Vertices[:,0], Vertices[:,1],Vertices[:,2]]
