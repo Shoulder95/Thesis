@@ -150,7 +150,7 @@ def main(args):
     import pickle
 
     f = open('test_vis.pkl','w')
-    pickle.dump({'im':im , 'cls_boxes':np.array(cls_boxes) , 'cls_bodys':np.array(cls_bodys) },f)
+    pickle.dump({'im':im , 'cls_boxes':np.array(cls_boxes) , 'cls_bodys':np.array(cls_bodys), 'kp':np.array(cls_keyps)},f)
     f.close()
 
     vis_utils.vis_one_image(
