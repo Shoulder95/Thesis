@@ -23,10 +23,20 @@ def smpl_view_set_axis_face(ax, azimuth=0):
     ax.set_zlim( 0.45 - max_range,   0.45 + max_range)
     ax.axis('off')
 
-im  = cv2.imread('../Thesis/infer_out_test/12.jpg')
+im  = cv2.imread('../Thesis/12_infer/12.jpg')
 #print(im)
-IUV = cv2.imread('../Thesis/infer_out_test/12_IUV.png')
-INDS = cv2.imread('../Thesis/infer_out_test/12_INDS.png',  0)
+IUV = cv2.imread('../Thesis/12_infer/12_IUV.png')
+print(IUV)
+INDS = cv2.imread('../Thesis/12_infer/12_INDS.png',  0)
+
+pkl_file = open('../Thesis/12_infer/test_vis.pkl', 'rb')
+Demo = pickle.load(pkl_file)
+#print(Demo['im'])
+print(len(Demo['cls_bodys'][1][1][0]))
+print(Demo['cls_bodys'][1][1])
+print(len(Demo['cls_bodys'][1][0][0]))
+print(Demo['cls_bodys'][1][0])
+#print(Demo['cls_boxes'])
 
 f = open("points.txt","r")
 collected_x = []
@@ -83,20 +93,27 @@ IUV_pick[:, 1:3] = IUV_pick[:, 1:3] / 255.0
 #print(IUV_pick.shape)
 
 print("Plotting...")
-## Visualization on the model
-fig = plt.figure(figsize=[10,5])
+
+fig = plt.figure(figsize=[15,5])
+
+# Visualize the image and collected points.
+ax = fig.add_subplot(131)
+ax.imshow(Demo['im'])
+ax.scatter(Demo['cls_bodys'][1][0],Demo['cls_bodys'][1][1],11, np.arange(len(Demo['cls_bodys'][1][1]))  )
+plt.title('Points on the image')
+ax.axis('off'), 
 
 ## Visualize the full body smpl male template model and collected points
-ax = fig.add_subplot(121, projection='3d')
+ax = fig.add_subplot(132, projection='3d')
 ax.scatter(Z,X,Y,s=0.02,c='k')
-ax.scatter(collected_z,  collected_x,collected_y,s=25,  c=  np.arange(IUV_pick.shape[0])    )
+ax.scatter(collected_z,  collected_x,collected_y,s=25,  c=  np.arange(len(Demo['y']))    )
 smpl_view_set_axis_full_body(ax)
 plt.title('Points on the SMPL model')
 
 ## Now zoom into the face.
-ax = fig.add_subplot(122, projection='3d')
+ax = fig.add_subplot(133, projection='3d')
 ax.scatter(Z,X,Y,s=0.2,c='k')
-ax.scatter(collected_z,  collected_x,collected_y,s=55,c=np.arange(IUV_pick.shape[0]))
+ax.scatter(collected_z,  collected_x,collected_y,s=55,c=np.arange(len(Demo['y'])))
 smpl_view_set_axis_face(ax)
 plt.title('Points on the SMPL model')
 #
