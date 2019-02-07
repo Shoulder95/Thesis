@@ -20,6 +20,7 @@ from __future__ import unicode_literals
 import argparse
 import cv2  # NOQA (Must import before importing caffe2 due to bug in cv2)
 import logging
+import glob
 import os
 import sys
 import yaml
@@ -113,7 +114,7 @@ def main(args):
     cfg_orig = load_cfg(yaml.dump(cfg))
 
     if os.path.isdir(args.im_file):
-        im_list = glob.iglob(args.im_file + '/*.' + args.image_ext)
+        im_list = glob.iglob(args.im_file + '/*.jpg')
     else:
         im_list = [args.im_file]
     
@@ -155,24 +156,24 @@ def main(args):
 
             workspace.ResetWorkspace()
 
-        f = open(os.path.join(args.output_dir,'test_vis_{}'.format(os.path.basename(im_name)) + '.pkl' ,'w')
-        pickle.dump({'im':im , 'cls_boxes':np.array(cls_boxes) , 'cls_bodys':np.array(cls_bodys) },f)
+        f = open(os.path.join(args.output_dir,'test_vis_{}'.format(os.path.basename(im_name).split('.')[0])) + '.pkl' ,'w')
+        pickle.dump({'im':im , 'cls_boxes':np.array(cls_boxes) , 'cls_bodys':np.array(cls_bodys), 'kp':np.array(cls_keyps) },f)
         f.close()
 
-    vis_utils.vis_one_image(
-        im[:, :, ::-1],
-        args.im_file,
-        args.output_dir,
-        cls_boxes,
-        cls_segms,
-        cls_keyps,
-        cls_bodys,
-        dataset=dummy_coco_dataset,
-        box_alpha=0.3,
-        show_class=True,
-        thresh=0.7,
-        kp_thresh=2
-    )
+        vis_utils.vis_one_image(
+            im[:, :, ::-1],
+            im_name,
+            args.output_dir,
+            cls_boxes,
+            cls_segms,
+            cls_keyps,
+            cls_bodys,
+            dataset=dummy_coco_dataset,
+            box_alpha=0.3,
+            show_class=True,
+            thresh=0.7,
+            kp_thresh=2
+        )
 
 
 def check_args(args):
