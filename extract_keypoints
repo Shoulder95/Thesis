@@ -1,0 +1,8 @@
+# Extracting keypoints from pkl file
+
+cls_keyps = Demo21['kp']
+keyps = [k for klist in cls_keyps for k in klist]
+kps = keyps[0]
+x2 = [kps[0,i] for i in range(len(kps[0]))]
+y2 = [kps[1,i] for i in range(len(kps[1]))]
+

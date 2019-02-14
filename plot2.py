@@ -26,16 +26,12 @@ def smpl_view_set_axis_face(ax, azimuth=0):
 im  = cv2.imread('../Thesis/12_infer/12.jpg')
 #print(im)
 IUV = cv2.imread('../Thesis/12_infer/12_IUV.png')
-print(IUV)
+#print(IUV)
 INDS = cv2.imread('../Thesis/12_infer/12_INDS.png',  0)
 
-pkl_file = open('../Thesis/12_infer/test_vis.pkl', 'rb')
+pkl_file = open('../Thesis/12_infer/test_vis_12.pkl', 'rb')
 Demo = pickle.load(pkl_file)
 #print(Demo['im'])
-print(len(Demo['cls_bodys'][1][1][0]))
-print(Demo['cls_bodys'][1][1])
-print(len(Demo['cls_bodys'][1][0][0]))
-print(Demo['cls_bodys'][1][0])
 #print(Demo['cls_boxes'])
 
 f = open("points.txt","r")
@@ -56,6 +52,8 @@ with open('../Thesis/smpl/models/basicmodel_m_lbs_10_207_0_v1.0.0.pkl', 'rb') as
     data = pickle.load(f)
     Vertices = data['v_template']  ##  Loaded vertices of size (6890, 3)
     X,Y,Z = [Vertices[:,0], Vertices[:,1],Vertices[:,2]]
+
+
 
 pick_idx = 1
 # Color of each (U,V) point.
@@ -96,24 +94,30 @@ print("Plotting...")
 
 fig = plt.figure(figsize=[15,5])
 
+cls_keyps = Demo['kp']
+keyps = [k for klist in cls_keyps for k in klist]
+kps = keyps[0]
+x = [kps[0,i] for i in range(len(kps[0]))]
+y = [kps[1,i] for i in range(len(kps[1]))]
+
 # Visualize the image and collected points.
 ax = fig.add_subplot(131)
 ax.imshow(Demo['im'])
-ax.scatter(Demo['cls_bodys'][1][0],Demo['cls_bodys'][1][1],11, np.arange(len(Demo['cls_bodys'][1][1]))  )
+ax.scatter(x,y,11, np.arange(len(y))  )
 plt.title('Points on the image')
 ax.axis('off'), 
 
 ## Visualize the full body smpl male template model and collected points
 ax = fig.add_subplot(132, projection='3d')
 ax.scatter(Z,X,Y,s=0.02,c='k')
-ax.scatter(collected_z,  collected_x,collected_y,s=25,  c=  np.arange(len(Demo['y']))    )
+ax.scatter(collected_z,  collected_x,collected_y,s=25,  c=  np.arange(len(collected_y))    )
 smpl_view_set_axis_full_body(ax)
 plt.title('Points on the SMPL model')
 
 ## Now zoom into the face.
 ax = fig.add_subplot(133, projection='3d')
 ax.scatter(Z,X,Y,s=0.2,c='k')
-ax.scatter(collected_z,  collected_x,collected_y,s=55,c=np.arange(len(Demo['y'])))
+ax.scatter(collected_z,  collected_x,collected_y,s=55,c=np.arange(len(collected_y)))
 smpl_view_set_axis_face(ax)
 plt.title('Points on the SMPL model')
 #
