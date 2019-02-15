@@ -23,13 +23,14 @@ def smpl_view_set_axis_face(ax, azimuth=0):
     ax.set_zlim( 0.45 - max_range,   0.45 + max_range)
     ax.axis('off')
 
-im  = cv2.imread('../Thesis/12_infer/12.jpg')
+im  = cv2.imread('../Images/ImageSamples/5.jpg')
 #print(im)
-IUV = cv2.imread('../Thesis/12_infer/12_IUV.png')
+IUV = cv2.imread('../Thesis/test/5_IUV.png')
 #print(IUV)
-INDS = cv2.imread('../Thesis/12_infer/12_INDS.png',  0)
+INDS = cv2.imread('../Thesis/test/5_INDS.png',  0)
+#print(INDS)
 
-pkl_file = open('../Thesis/12_infer/test_vis_12.pkl', 'rb')
+pkl_file = open('../Thesis/test/test_vis_5.pkl', 'rb')
 Demo = pickle.load(pkl_file)
 #print(Demo['im'])
 #print(Demo['cls_boxes'])

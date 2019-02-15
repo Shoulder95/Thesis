@@ -117,6 +117,10 @@ def main(args):
                 'rest (caches and auto-tuning need to warm up)'
             )
 
+        f = open(os.path.join(args.output_dir,'test_vis_{}'.format(os.path.basename(im_name).split('.')[0])) + '.pkl' ,'w')
+        pickle.dump({'im':im, 'kp':np.array(cls_keyps) },f)
+        f.close()
+
         vis_utils.vis_one_image(
             im[:, :, ::-1],  # BGR -> RGB for visualization
             im_name,

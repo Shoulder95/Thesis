@@ -50,7 +50,7 @@ for i in range(len(im_list)):
 		collected_z[i] = p[2]
 	print(time.time() - start , 'secs')
 
-	f = open("points_{}".format(os.path.basename(im_list[i])) + ".txt","w")
+	f = open("/points/points_{}".format(os.path.basename(im_list[i])) + ".txt","w")
 	i = 0
 	while i < len(collected_x):
 		f.write(str(collected_x[i]))
