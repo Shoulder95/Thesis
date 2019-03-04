@@ -7,7 +7,7 @@ import time
 import glob
 import os
 
-im_list = list(glob.iglob('/densepose/DensePoseData/infer_out_demo/*.jpg'))
+im_list = list(glob.iglob('/ImageSamples/*.jpg'))
 IUV_list = list(glob.iglob('/densepose/DensePoseData/infer_out_demo/*IUV.png'))
 INDS_list = list(glob.iglob('/densepose/DensePoseData/infer_out_demo/*INDS.png'))
 
@@ -25,6 +25,10 @@ for i in range(len(im_list)):
 	im  = cv2.imread(im_list[i])
 	IUV = cv2.imread(IUV_list[i])
 	INDS = cv2.imread(INDS_list[i],  0)
+	for p in INDS:
+		for p1 in p:
+			if p1 > 0:
+				print(p1)
 	C = np.where(INDS == pick_idx)
 	print(C)
 	# C[0] is x-coords  np.array([23,  23,   24, ..])
